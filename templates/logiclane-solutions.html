@@ -1,0 +1,736 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LogicLane Solutions Ltd — Software Development</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#152238;
+    --ink-soft:#2b3c56;
+    --paper:#F6F4EF;
+    --paper-deep:#ECE9E1;
+    --accent:#A8672A;
+    --accent-deep:#8C5420;
+    --slate:#3E5872;
+    --line:#D6D2C6;
+    --white:#FFFFFF;
+    --max:1120px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Source Serif 4', serif;
+    font-weight:600;
+    color:var(--ink);
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  p{margin:0;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 32px;
+  }
+  .rule{
+    border:none;
+    border-top:1px solid var(--line);
+    margin:0;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(246,244,239,0.92);
+    backdrop-filter:saturate(140%) blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:20px 32px;
+    max-width:var(--max);
+    margin:0 auto;
+  }
+  .logo{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Source Serif 4', serif;
+    font-weight:600;
+    font-size:20px;
+    color:var(--ink);
+    text-decoration:none;
+    flex-shrink:0;
+  }
+  .logo img{
+    display:block;
+    width:32px;
+    height:32px;
+  }
+  .logo .mark{
+    width:10px;height:10px;
+    background:var(--accent);
+    display:inline-block;
+    transform:translateY(-1px);
+  }
+  .logo .co{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:400;
+    font-size:13px;
+    color:var(--slate);
+  }
+  nav.links{
+    display:flex;
+    gap:36px;
+    font-size:15px;
+  }
+  nav.links a{
+    text-decoration:none;
+    color:var(--ink-soft);
+    padding:4px 0;
+    border-bottom:1px solid transparent;
+    transition:border-color .18s ease, color .18s ease;
+  }
+  nav.links a:hover{ color:var(--ink); border-color:var(--accent); }
+  .nav-cta{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--ink);
+    color:var(--paper);
+    text-decoration:none;
+    font-size:14.5px;
+    font-weight:500;
+    padding:10px 18px;
+    border:1px solid var(--ink);
+    transition:background .18s ease, color .18s ease;
+    flex-shrink:0;
+  }
+  .nav-cta:hover{ background:transparent; color:var(--ink); }
+  .menu-toggle{
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    width:40px;
+    height:40px;
+    background:transparent;
+    border:1px solid var(--line);
+    border-radius:4px;
+    cursor:pointer;
+    gap:5px;
+    padding:0;
+  }
+  .menu-toggle span{
+    display:block;
+    width:18px;
+    height:1.5px;
+    background:var(--ink);
+    transition:transform .2s ease, opacity .2s ease;
+  }
+  .menu-toggle[aria-expanded="true"] span:nth-child(1){
+    transform:translateY(6.5px) rotate(45deg);
+  }
+  .menu-toggle[aria-expanded="true"] span:nth-child(2){
+    opacity:0;
+  }
+  .menu-toggle[aria-expanded="true"] span:nth-child(3){
+    transform:translateY(-6.5px) rotate(-45deg);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:96px 0 88px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:56px;
+    align-items:center;
+  }
+  .eyebrow{
+    font-size:14.5px;
+    color:var(--slate);
+    margin-bottom:22px;
+  }
+  .hero h1{
+    font-size:52px;
+    line-height:1.12;
+    max-width:15ch;
+  }
+  .hero p.lede{
+    margin-top:24px;
+    font-size:18px;
+    color:var(--ink-soft);
+    max-width:46ch;
+  }
+  .hero-actions{
+    margin-top:36px;
+    display:flex;
+    align-items:center;
+    gap:22px;
+  }
+  .btn-primary{
+    display:inline-flex;
+    align-items:center;
+    background:var(--accent);
+    color:var(--white);
+    text-decoration:none;
+    font-weight:500;
+    font-size:15px;
+    padding:14px 24px;
+    border:1px solid var(--accent);
+    transition:background .18s ease, border-color .18s ease;
+  }
+  .btn-primary:hover{ background:var(--accent-deep); border-color:var(--accent-deep); }
+  .btn-text{
+    text-decoration:none;
+    font-size:15px;
+    color:var(--ink);
+    border-bottom:1px solid var(--ink);
+    padding-bottom:2px;
+  }
+  .hero-diagram{ width:100%; height:auto; }
+  .hero-diagram path.lane{
+    fill:none;
+    stroke:var(--slate);
+    stroke-width:1.4;
+    opacity:0.55;
+    stroke-dasharray:600;
+    stroke-dashoffset:600;
+    animation:draw 1.6s ease forwards;
+  }
+  .hero-diagram path.lane.main{
+    stroke:var(--accent);
+    stroke-width:2.2;
+    opacity:1;
+    animation-delay:.15s;
+  }
+  .hero-diagram circle{
+    fill:var(--paper);
+    stroke:var(--ink);
+    stroke-width:1.4;
+    opacity:0;
+    animation:fadein .5s ease forwards;
+    animation-delay:1.5s;
+  }
+  .hero-diagram circle.node-end{
+    fill:var(--accent);
+    stroke:var(--accent-deep);
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  @keyframes fadein{ to{ opacity:1; } }
+  @media (prefers-reduced-motion: reduce){
+    .hero-diagram path.lane{ animation:none; stroke-dashoffset:0; }
+    .hero-diagram circle{ animation:none; opacity:1; }
+  }
+
+  /* ---------- Section scaffolding ---------- */
+  section{ padding:84px 0; }
+  section.alt{ background:var(--paper-deep); }
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:32px;
+    margin-bottom:52px;
+  }
+  .section-head h2{ font-size:34px; max-width:20ch; }
+  .section-head p{ color:var(--slate); max-width:34ch; font-size:15.5px; }
+
+  /* ---------- Services (bordered list, not card kit) ---------- */
+  .service-row{
+    display:grid;
+    grid-template-columns:2fr 3fr 1fr;
+    gap:32px;
+    padding:30px 0;
+    border-top:1px solid var(--line);
+    align-items:baseline;
+  }
+  .service-row:last-child{ border-bottom:1px solid var(--line); }
+  .service-row h3{ font-size:21px; }
+  .service-row p{ color:var(--ink-soft); font-size:15.5px; max-width:52ch; }
+  .service-row .tag{
+    font-size:13.5px;
+    color:var(--slate);
+    text-align:right;
+  }
+
+  /* ---------- Process (legitimate sequence) ---------- */
+  .process{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:0;
+    position:relative;
+  }
+  .process::before{
+    content:"";
+    position:absolute;
+    top:13px;
+    left:0;
+    right:0;
+    height:1px;
+    background:var(--line);
+  }
+  .step{ position:relative; padding-right:20px; }
+  .step .num{
+    width:26px;height:26px;
+    border-radius:50%;
+    background:var(--paper);
+    border:1.4px solid var(--ink);
+    color:var(--ink);
+    font-family:'Source Serif 4', serif;
+    font-size:13px;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+    z-index:1;
+    margin-bottom:22px;
+  }
+  .step:first-child .num{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  .step h3{ font-size:17px; margin-bottom:8px; }
+  .step p{ font-size:14.5px; color:var(--slate); }
+
+  /* ---------- Proof strip ---------- */
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .stat{
+    padding:36px 28px;
+    border-left:1px solid var(--line);
+  }
+  .stat:first-child{ border-left:none; }
+  .stat .num{
+    font-family:'Source Serif 4', serif;
+    font-size:38px;
+    color:var(--ink);
+  }
+  .stat .label{
+    margin-top:6px;
+    font-size:14px;
+    color:var(--slate);
+  }
+
+  /* ---------- Work ---------- */
+  .work-item{
+    display:grid;
+    grid-template-columns:0.9fr 1.6fr;
+    gap:48px;
+    padding:44px 0;
+    border-top:1px solid var(--line);
+  }
+  .work-item:last-child{ border-bottom:1px solid var(--line); }
+  .work-meta{ font-size:14px; color:var(--slate); }
+  .work-meta .client{ color:var(--ink); font-weight:500; display:block; margin-top:4px; font-size:16px; font-family:'Source Serif 4', serif;}
+  .work-body h3{ font-size:22px; margin-bottom:12px; }
+  .work-body p{ color:var(--ink-soft); font-size:15.5px; max-width:60ch; }
+  .work-body .outcome{
+    margin-top:16px;
+    font-size:14.5px;
+    color:var(--accent-deep);
+  }
+
+  /* ---------- Stack ---------- */
+  .stack-list{
+    columns:3;
+    column-gap:40px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:14.5px;
+    color:var(--ink-soft);
+  }
+  .stack-list div{
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+    break-inside:avoid;
+  }
+
+  /* ---------- CTA band ---------- */
+  .cta-band{
+    background:var(--ink);
+    color:var(--paper);
+    padding:80px 0;
+  }
+  .cta-band .wrap{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:32px;
+  }
+  .cta-band h2{ color:var(--paper); font-size:32px; max-width:16ch; }
+  .cta-band p{ color:#B7C0CE; margin-top:12px; font-size:15.5px; }
+  .btn-invert{
+    display:inline-flex;
+    align-items:center;
+    background:var(--paper);
+    color:var(--ink);
+    text-decoration:none;
+    font-weight:500;
+    font-size:15px;
+    padding:14px 24px;
+    border:1px solid var(--paper);
+    white-space:nowrap;
+  }
+  .btn-invert:hover{ background:transparent; color:var(--paper); }
+
+  /* ---------- Footer ---------- */
+  footer{ padding:64px 0 40px; }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1fr;
+    gap:32px;
+    padding-bottom:40px;
+  }
+  .footer-grid h4{
+    font-size:14px;
+    font-weight:500;
+    color:var(--ink);
+    margin-bottom:16px;
+    font-family:'IBM Plex Sans', sans-serif;
+  }
+  .footer-grid a{
+    display:block;
+    text-decoration:none;
+    color:var(--slate);
+    font-size:14.5px;
+    padding:6px 0;
+  }
+  .footer-grid a:hover{ color:var(--ink); }
+  .footer-about p{ color:var(--slate); font-size:14.5px; max-width:36ch; }
+  .footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    font-size:13.5px;
+    color:var(--slate);
+    flex-wrap:wrap;
+    gap:12px;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px){
+    .menu-toggle{ display:flex; }
+    .nav{ padding:16px 24px; }
+    nav.links{
+      display:none;
+      position:absolute;
+      top:100%;
+      left:0;
+      right:0;
+      background:var(--paper);
+      border-bottom:1px solid var(--line);
+      padding:16px 24px;
+      gap:0;
+      flex-direction:column;
+    }
+    nav.links.open{ display:flex; }
+    nav.links a{
+      padding:12px 0;
+      border-bottom:1px solid var(--line);
+      font-size:16px;
+    }
+    nav.links a:last-child{ border-bottom:none; }
+    .nav-cta{ display:none; }
+    .hero-grid{ grid-template-columns:1fr; }
+    .hero h1{ font-size:38px; max-width:none; }
+    .process{ grid-template-columns:1fr; gap:28px; }
+    .process::before{ display:none; }
+    .stats{ grid-template-columns:1fr 1fr; }
+    .stat{ border-left:none; border-top:1px solid var(--line); }
+    .stat:nth-child(1),.stat:nth-child(2){ border-top:none; }
+    .work-item{ grid-template-columns:1fr; gap:16px; }
+    .stack-list{ columns:2; }
+    .cta-band .wrap{ flex-direction:column; align-items:flex-start; }
+    .footer-grid{ grid-template-columns:1fr 1fr; }
+    .service-row{ grid-template-columns:1fr; gap:8px; }
+    .service-row .tag{ text-align:left; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="#top">
+      <img src="{% static 'images/logiclane_icon.ico' %}" alt="LogicLane" width="32" height="32">
+      LogicLane<span class="co">Solutions Ltd</span>
+    </a>
+    <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="links" id="main-nav">
+      <a href="#services">Services</a>
+      <a href="#approach">Approach</a>
+      <a href="#work">Work</a>
+      <a href="#stack">Stack</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="nav-cta" href="#contact">Start a project</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Software development, Ibadan City &amp; remote</p>
+        <h1>We build the software your operations quietly depend on.</h1>
+        <p class="lede">LogicLane Solutions designs, builds and maintains custom systems for teams that can't afford to guess — from internal tools to customer-facing platforms, engineered to stay simple as they grow.</p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="#contact">Start a project</a>
+          <a class="btn-text" href="#work">See our work</a>
+        </div>
+      </div>
+      <div>
+        <svg class="hero-diagram" viewBox="0 0 480 340" xmlns="http://www.w3.org/2000/svg">
+          <path class="lane" d="M20 60 C 160 60, 180 150, 300 150 S 420 170, 440 170" />
+          <path class="lane" d="M20 150 C 140 150, 170 150, 300 150 S 420 170, 440 170" style="animation-delay:.3s" />
+          <path class="lane" d="M20 250 C 160 250, 190 160, 300 150 S 420 170, 440 170" style="animation-delay:.45s" />
+          <path class="lane main" d="M300 150 C 350 155, 400 165, 440 170" />
+          <circle class="node-start" cx="20" cy="60" r="5" />
+          <circle class="node-start" cx="20" cy="150" r="5" />
+          <circle class="node-start" cx="20" cy="250" r="5" />
+          <circle cx="300" cy="150" r="6" />
+          <circle class="node-end" cx="440" cy="170" r="7" />
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>What we build</h2>
+        <p>Four disciplines, one team — so the handoffs that usually slow projects down don't happen.</p>
+      </div>
+
+      <div class="service-row">
+        <h3>Custom software</h3>
+        <p>Line-of-business applications built around how your team actually works, not around a template's assumptions.</p>
+        <span class="tag">Web &amp; desktop</span>
+      </div>
+      <div class="service-row">
+        <h3>Web &amp; mobile products</h3>
+        <p>Customer-facing applications and portals, built for the load and the browsers your users actually bring.</p>
+        <span class="tag">Product engineering</span>
+      </div>
+      <div class="service-row">
+        <h3>Systems integration</h3>
+        <p>Connecting the accounting package, the CRM and the spreadsheet nobody wants to admit still runs the business.</p>
+        <span class="tag">APIs &amp; data</span>
+      </div>
+      <div class="service-row">
+        <h3>Maintenance &amp; support</h3>
+        <p>Ongoing ownership of systems we didn't necessarily build, with a response time you can plan around.</p>
+        <span class="tag">Retainer</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPROACH -->
+  <section class="alt" id="approach">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>How a project runs</h2>
+        <p>The same five stages on every engagement, so you always know what's next.</p>
+      </div>
+      <div class="process">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>Discover</h3>
+          <p>We map the current process and agree what "done" looks like before any code is written.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>Design</h3>
+          <p>Data model and interface sketched together, so the two never disagree later.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>Build</h3>
+          <p>Weekly working builds, not a single reveal at the end of the contract.</p>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <h3>Ship</h3>
+          <p>Staged rollout with your team, migration handled, rollback plan in hand.</p>
+        </div>
+        <div class="step">
+          <div class="num">5</div>
+          <h3>Support</h3>
+          <p>A named engineer stays reachable after launch — not a ticket queue.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section style="padding-top:0; padding-bottom:0;">
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat"><div class="num">40+</div><div class="label">Systems shipped since 2019</div></div>
+        <div class="stat"><div class="num">92%</div><div class="label">Clients still on retainer year two</div></div>
+        <div class="stat"><div class="num">6</div><div class="label">Engineers, no bench of juniors learning on your project</div></div>
+        <div class="stat"><div class="num">48hr</div><div class="label">Median response time on support retainers</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Selected work</h2>
+        <p>A few systems we've built and still maintain.</p>
+      </div>
+
+      <div class="work-item">
+        <div class="work-meta">
+          Logistics &amp; distribution
+          <span class="client">Delta Freightways</span>
+        </div>
+        <div class="work-body">
+          <h3>A dispatch system that replaced four spreadsheets</h3>
+          <p>Route planning, driver assignment and delivery proof-of-receipt in one internal tool, built to work offline on the yard floor where signal is unreliable.</p>
+          <p class="outcome">Dispatch time down from 40 minutes to under 8 per shift.</p>
+        </div>
+      </div>
+
+      <div class="work-item">
+        <div class="work-meta">
+          Retail &amp; payments
+          <span class="client">Coral Market Group</span>
+        </div>
+        <div class="work-body">
+          <h3>Inventory and point-of-sale, unified across nine branches</h3>
+          <p>Stock levels, transfers and daily reconciliation visible from one dashboard, replacing branch-by-branch manual counts.</p>
+          <p class="outcome">Stock discrepancies down 70% in the first quarter.</p>
+        </div>
+      </div>
+
+      <div class="work-item">
+        <div class="work-meta">
+          Healthcare administration
+          <span class="client">Wellview Clinics</span>
+        </div>
+        <div class="work-body">
+          <h3>Patient scheduling built around three clinic locations</h3>
+          <p>Appointment booking, reminders and staff rostering, integrated with the clinics' existing billing software rather than replacing it.</p>
+          <p class="outcome">No-show rate reduced from 22% to 9%.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section class="alt" id="stack">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>What we build with</h2>
+        <p>Chosen for what will still be maintainable in five years, not what's newest this month.</p>
+      </div>
+      <div class="stack-list">
+        <div>TypeScript &amp; Node.js</div>
+        <div>Python &amp; Django</div>
+        <div>React &amp; React Native</div>
+        <div>PostgreSQL</div>
+        <div>AWS &amp; DigitalOcean</div>
+        <div>Docker</div>
+        <div>Go</div>
+        <div>REST &amp; GraphQL APIs</div>
+        <div>PHP &amp; Laravel</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band" id="contact">
+    <div class="wrap">
+      <div>
+        <h2>Tell us what's slowing your team down.</h2>
+        <p>A short call is usually enough to know if we're a fit — no proposal deck required to get there.</p>
+      </div>
+      <a class="btn-invert" href="mailto:hello@logiclanesolutions.com">hello@logiclanesolutions.com</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="logo" href="#top" style="margin-bottom:16px;"><span class="mark"></span>LogicLane</a>
+        <p>Software development studio based in Ibadan City, Nigeria, working with clients across West Africa and remotely worldwide.</p>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="#services">Services</a>
+        <a href="#approach">Approach</a>
+        <a href="#work">Work</a>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <a href="mailto:hello@logiclanesolutions.com">hello@logiclanesolutions.com</a>
+        <a href="tel:+23408079823665">+234 (0) 807 982 3665</a>
+      </div>
+      <div>
+        <h4>Address</h4>
+        <a href="#" onclick="return false;" style="cursor:default;">Ring Road, Ibadan City,<br>Oyo State, Nigeria</a>
+      </div>
+    </div>
+    <hr class="rule">
+    <div class="footer-bottom">
+      <span>© 2026 LogicLane Solutions Ltd. </span>
+      <span>All work covered by a standard service agreement.</span>
+    </div>
+  </div>
+</footer>
+
+  <script>
+    (function(){
+      var toggle = document.querySelector('.menu-toggle');
+      var nav = document.getElementById('main-nav');
+      if (!toggle || !nav) return;
+      toggle.addEventListener('click', function(){
+        var expanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        nav.classList.toggle('open');
+      });
+      document.querySelectorAll('nav.links a').forEach(function(link){
+        link.addEventListener('click', function(){
+          toggle.setAttribute('aria-expanded', 'false');
+          nav.classList.remove('open');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
