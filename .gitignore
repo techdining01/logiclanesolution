@@ -1,4 +1,5 @@
 env/
 db.*
 core/__pycache__/
+web/__pycache__/
 .env
