@@ -1,3 +1,4 @@
 django
 whitenoise
 pillow
+python-dotenv
