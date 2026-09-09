@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["logiclane.onrender.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["logiclanesolutions.onrender.com", "localhost", "127.0.0.1", "10.14.247.216"]
 
 
 # Application definition
