@@ -7,12 +7,14 @@ from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
+from datetime import Date
 
 logger = logging.getLogger(__name__)
 
 
 def home(request):
-    return render(request, 'logiclane-solutions.html')
+    year = Date.today().year
+    return render(request, "logiclane-solutions.html", {"year": year})
 
 
 @require_POST
