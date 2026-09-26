@@ -1,7 +1,9 @@
 .git
 .env
+.venv
 venv/
 env/
+node_modules/
 __pycache__
 *.pyc
 *.pyo
@@ -10,3 +12,4 @@ __pycache__
 db.sqlite3
 staticfiles/
 media/
+src/
