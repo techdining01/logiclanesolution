@@ -54,12 +54,16 @@ def _email_booking(data):
         f"Preferred time: {data['time']}\n"
         f"Notes: {data.get('notes', '')}"
     )
+    # Strip display name from 'Name <addr>' format so SMTP recipient is a bare address
+    raw = settings.EMAIL_HOST_USER
+    if '<' in raw:
+        raw = raw.split('<')[-1].rstrip('>')
     try:
         send_mail(
             subject=subject,
             message=message,
             from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[settings.EMAIL_HOST_USER],
+            recipient_list=[raw],
             fail_silently=False,
         )
     except Exception:

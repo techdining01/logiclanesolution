@@ -509,6 +509,31 @@
   .btn-submit:hover{ background:var(--accent-deep); border-color:var(--accent-deep); }
   .pay-note{ font-size:12px; color:var(--slate); margin-top:12px; line-height:1.5; }
 
+  /* ---------- Toast ---------- */
+  .toast{
+    position:fixed;
+    bottom:28px;
+    left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--ink);
+    color:var(--paper);
+    font-size:14.5px;
+    padding:14px 22px;
+    border-left:4px solid var(--accent);
+    box-shadow:0 4px 24px rgba(21,34,56,0.18);
+    z-index:999;
+    opacity:0;
+    transition:opacity .25s ease, transform .25s ease;
+    pointer-events:none;
+    max-width:90vw;
+    text-align:center;
+  }
+  .toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+  }
+  .toast.error{ border-left-color:#c0392b; }
+
   /* ---------- Work image grid ---------- */
   .work-img-grid{
     display:grid;
@@ -913,7 +938,7 @@
         <h2>Tell us what's slowing your team down.</h2>
         <p>A short call is usually enough to know if we're a fit — no proposal deck required to get there.</p>
       </div>
-      <a class="btn-invert" href="mailto:logiclanesolutions@gmail.com">hello@logiclanesolutions.com</a>
+      <a class="btn-invert" href="#" onclick="openBooking('General Enquiry');return false;">hello@logiclanesolutions.com</a>
     </div>
   </section>
 
@@ -949,6 +974,9 @@
     </div>
   </div>
 </footer>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <!-- BOOKING MODAL -->
   <div class="modal-overlay" id="booking-overlay" aria-hidden="true">
@@ -1070,6 +1098,15 @@
       if (e.key === 'Escape') closeBooking();
     });
 
+    function showToast(msg, isError){
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.toggle('error', !!isError);
+      t.classList.add('show');
+      clearTimeout(t._timer);
+      t._timer = setTimeout(function(){ t.classList.remove('show'); }, 5000);
+    }
+
     function submitBooking(event){
       event.preventDefault();
 
@@ -1090,10 +1127,8 @@
       };
 
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Starting checkout…';
+      submitBtn.textContent = 'Sending…';
 
-      // Hits the Django view below, which emails LogicLane the booking and
-      // asks Payvessel (server-side) to start a checkout for the fee.
       fetch(form.dataset.endpoint, {
         method: 'POST',
         headers: {
@@ -1111,13 +1146,13 @@
           window.location.href = data.payvessel_checkout_url;
         } else if (data.fallback) {
           closeBooking();
-          alert(data.message);
+          showToast(data.message);
         } else {
           throw new Error('no-checkout-url');
         }
       })
       .catch(function(){
-        alert("We couldn't reach the server. Please email us directly at logiclanesolutions@gmail.com to book your session.");
+        showToast('Could not reach the server. Email us at logiclanesolutions@gmail.com to book.', true);
       })
       .finally(function(){
         submitBtn.disabled = false;

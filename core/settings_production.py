@@ -85,7 +85,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ---------- Security ----------
-SECURE_SSL_REDIRECT = True
+# Render's proxy terminates SSL — do NOT redirect inside Django or HEAD
+# requests will send a body and trigger RFC 9110 warnings in gunicorn.
+SECURE_SSL_REDIRECT = False
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
