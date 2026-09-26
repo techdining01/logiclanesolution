@@ -8,6 +8,31 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/output.css' %}">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#152238',
+          'ink-soft': '#2b3c56',
+          paper: '#F6F4EF',
+          'paper-deep': '#ECE9E1',
+          accent: '#A8672A',
+          'accent-deep': '#8C5420',
+          slate: '#3E5872',
+          line: '#D6D2C6',
+        },
+        fontFamily: {
+          serif: ['Source Serif 4', 'serif'],
+          sans: ['IBM Plex Sans', 'sans-serif'],
+          mono: ['IBM Plex Mono', 'monospace'],
+        },
+      }
+    }
+  }
+</script>
 <style>
   :root{
     --ink:#152238;
@@ -351,14 +376,31 @@
     font-size:14.5px;
     color:var(--accent-deep);
   }
+  .work-img-wrap{
+    width:100%;
+    max-height:220px;
+    border-radius:6px;
+    overflow:hidden;
+    background:#ECE9E1;
+    margin-bottom:2px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
   .work-img{
     width:100%;
-    max-width:420px;
     height:220px;
-    object-fit:cover;
-    border:1px solid var(--line);
-    margin-bottom:18px;
-    background:var(--paper-deep);
+    object-fit:contain;
+    border:none;
+    transition:transform .25s ease;
+    cursor:pointer;
+  }
+  .work-img-wrap:hover .work-img{
+    transform:scale(1.05);
+  }
+  .work-img-wrap:hover{
+    z-index:10;
+    margin-bottom:0;
   }
   .work-body .btn-book{
     display:inline-flex;
@@ -466,6 +508,20 @@
   }
   .btn-submit:hover{ background:var(--accent-deep); border-color:var(--accent-deep); }
   .pay-note{ font-size:12px; color:var(--slate); margin-top:12px; line-height:1.5; }
+
+  /* ---------- Work image grid ---------- */
+  .work-img-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-bottom:16px;
+  }
+  @media(min-width:640px){
+    .work-img-grid{ grid-template-columns:repeat(3,1fr); }
+  }
+  @media(min-width:860px){
+    .work-img-grid{ grid-template-columns:repeat(4,1fr); }
+  }
 
   /* ---------- Stack ---------- */
   .stack-list{
@@ -576,6 +632,8 @@
     .stat{ border-left:none; border-top:1px solid var(--line); }
     .stat:nth-child(1),.stat:nth-child(2){ border-top:none; }
     .work-item{ grid-template-columns:1fr; gap:16px; }
+    .work-img-wrap{ max-height:160px; }
+    .work-img{ height:160px; }
     .stack-list{ columns:2; }
     .cta-band .wrap{ flex-direction:column; align-items:flex-start; }
     .footer-grid{ grid-template-columns:1fr 1fr; }
@@ -734,7 +792,9 @@
           <span class="client">Al-Halal Islamic Cooperative</span>
         </div>
         <div class="work-body">
-          <img class="work-img" src="{% static 'images/work-fintech.jpg' %}" alt="Al-Halal Islamic Cooperative platform screen showing member contributions and profit-sharing ledger">
+          <div class="work-img-grid" style="grid-template-columns:1fr;max-width:420px;margin-bottom:16px;">
+            <div class="work-img-wrap"><img class="work-img" src="{% static 'images/work-fintech.png' %}" alt="Al-Halal Islamic Cooperative platform screen showing member contributions and profit-sharing ledger"></div>
+          </div>
           <h3>A Sharia-compliant contribution and financing platform for a growing cooperative</h3>
           <p>Member onboarding, monthly contribution tracking, profit-sharing (Mudarabah) computation and interest-free (Qard Hasan) loan disbursement, all reconciled against a single ledger the board can audit at any time.</p>
           <p class="outcome">Manual reconciliation time cut from days to hours each month-end.</p>
@@ -770,12 +830,14 @@
 
       <div class="work-item">
         <div class="work-meta">
-          Hardware sales &amp; service
-          <span class="client">Computers &amp; laptops</span>
+          Hardware sales & service
+          <span class="client">Computers & laptops</span>
         </div>
         <div class="work-body">
-          <img class="work-img" src="{% static 'images/work-laptops.jpg' %}" alt="New and refurbished laptops and desktop computers on display for sale">
-          <img class="work-img" src="{% static 'images/work-computers.jpg' %}" alt="New and refurbished laptops and desktop computers on display for sale">
+          <div class="work-img-grid">
+            <div class="work-img-wrap"><img class="work-img" src="{% static 'images/work-Laptop.png' %}" alt="New and refurbished laptops and desktop computers on display for sale"></div>
+            <div class="work-img-wrap"><img class="work-img" src="{% static 'images/work-computer.png' %}" alt="New and refurbished laptops and desktop computers on display for sale"></div>
+          </div>
           <h3>New &amp; refurbished computer and laptop sales, setup and repair</h3>
           <p>Sourcing and supply of new and quality-checked refurbished desktops and laptops, plus diagnostics, hardware repair, upgrades (RAM/SSD), OS installation and virus cleanup for individuals and offices.</p>
           <p class="outcome">Backed by the same team that maintains your software, so hardware issues don't become someone else's problem to chase.</p>
@@ -784,18 +846,21 @@
       </div>
 
       <div class="work-item">
-        <div class="work-meta">
-          Hardware sales &amp; service
-          <span class="client">Printers &amp; copiers</span>
+<div class="work-meta">
+          Hardware sales & service
+          <span class="client">Printers & copiers</span>
         </div>
         <div class="work-body">
-          <img class="work-img" src="{% static 'images/work-printers.jpg' %}" alt="Office printer and copier being serviced by a technician">
-          <img class="work-img" src="{% static 'images/work-copiers.jpg' %}" alt="Office printer and copier being serviced by a technician">
+          <div class="work-img-grid">
+            <div class="work-img-wrap"><img class="work-img" src="{% static 'images/canon.png' %}" alt="Office printer and copier being serviced by a technician"></div>
+            <div class="work-img-wrap"><img class="work-img" src="{% static 'images/work-copier.png' %}" alt="Office printer and copier being serviced by a technician"></div>
+          </div>
           <h3>Printer and copier sales, installation and repair</h3>
           <p>Supply of new and fairly-used printers, copiers and multi-function devices, with installation, network/shared-printing setup, toner and consumables, and on-site repair for office and home use.</p>
           <p class="outcome">One call for the machine, the drivers and the network setup — no back-and-forth between vendors.</p>
           <button class="btn-book" type="button" onclick="openBooking('Printer &amp; Copier Sales / Repair')">Book a session</button>
         </div>
+      </div>
 
       <div class="work-item">
         <div class="work-meta">
@@ -803,10 +868,16 @@
           <span class="client">Consumables for Printers &amp; copiers</span>
         </div>
         <div class="work-body">
-          <img class="work-img" src="{% static 'images/work-printers.jpg' %}" alt="Office printer and copier being serviced by a technician">
-          <img class="work-img" src="{% static 'images/work-copiers.jpg' %}" alt="Office printer and copier being serviced by a technician">
+          <div class="work-img-grid">
+            <div class="work-img-wrap"><img class="work-img" src="{% static 'images/cartridges.png' %}" alt="Toner cartridges for printers and copiers"></div>
+            <div class="work-img-wrap"><img class="work-img" src="{% static 'images/riso.png' %}" alt="ink, and master for risograph, copy printers"></div>
+            <div class="work-img-wrap"><img class="work-img" src="{% static 'images/paper.png' %}" alt="Printing paper reams"></div>
+            <div class="work-img-wrap"><img class="work-img" src="{% static 'images/ink.png' %}" alt="Ink bottles for printer refills"></div>
+            <div class="work-img-wrap"><img class="work-img" src="{% static 'images/refill_toner.png' %}" alt="Ink bottles for printer refills"></div>
+            <div class="work-img-wrap"><img class="work-img" src="{% static 'images/sharp_refill.png' %}" alt="Ink bottles for printer refills"></div>
+          </div>
           <h3>Consumables for Office equipment</h3>
-          <p>Supply of consumables for office and home use.</p>
+          <p>Supply of ink, toner cartridges, and printing paper for office and home use — compatible with major printer and copier brands.</p>
           <p class="outcome">One call for the machine, the drivers and the network setup — no back-and-forth between vendors.</p>
           <button class="btn-book" type="button" onclick="openBooking('Printer &amp; Copier Sales / Repair')">Book a session</button>
         </div>
@@ -934,7 +1005,7 @@
           <textarea id="bk-notes" placeholder="Brief description of the project or issue"></textarea>
         </div>
         <button type="submit" class="btn-submit">Confirm &amp; pay with Payvessel</button>
-        <p class="pay-note">Submitting emails your booking to logiclanesolutions@gmail.com and starts a Payvessel checkout for the session fee. You'll get a calendar confirmation once payment clears.</p>
+        <p class="pay-note">Submitting sends your booking to logiclanesolutions@gmail.com. If Payvessel checkout is available, you'll be redirected to pay online — otherwise we'll contact you to arrange payment.</p>
 
       </form>
     </div>
@@ -1036,26 +1107,17 @@
         return response.json();
       })
       .then(function(data){
-        if (!data.payvessel_checkout_url) throw new Error('no-checkout-url');
-        window.location.href = data.payvessel_checkout_url;
+        if (data.payvessel_checkout_url) {
+          window.location.href = data.payvessel_checkout_url;
+        } else if (data.fallback) {
+          closeBooking();
+          alert(data.message);
+        } else {
+          throw new Error('no-checkout-url');
+        }
       })
       .catch(function(){
-        // Backend or payment step unreachable — fall back to a pre-filled
-        // email so the booking still reaches LogicLane.
-        var subject = 'Session booking: ' + payload.service + ' (' + payload.tier + ')';
-        var body =
-          'Service: ' + payload.service + '\n' +
-          'Plan: ' + payload.tier + ' (₦' + payload.amount.toLocaleString() + ')\n' +
-          'Name: ' + payload.name + '\n' +
-          'Email: ' + payload.email + '\n' +
-          'Phone: ' + payload.phone + '\n' +
-          'Preferred date: ' + payload.date + '\n' +
-          'Preferred time: ' + payload.time + '\n' +
-          'Notes: ' + payload.notes;
-        window.location.href = 'mailto:logiclanesolutions@gmail.com'
-          + '?subject=' + encodeURIComponent(subject)
-          + '&body=' + encodeURIComponent(body);
-        alert("We couldn't reach the payment system just now, so we've opened an email with your booking details instead — please send it and we'll confirm manually.");
+        alert("We couldn't reach the server. Please email us directly at logiclanesolutions@gmail.com to book your session.");
       })
       .finally(function(){
         submitBtn.disabled = false;

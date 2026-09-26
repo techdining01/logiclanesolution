@@ -1,4 +1,5 @@
 env/
+.venv/
 db.*
 core/__pycache__/
 web/__pycache__/

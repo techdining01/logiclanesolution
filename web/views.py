@@ -17,12 +17,6 @@ def home(request):
 
 @require_POST
 def book_session(request):
-    """
-    Handles a "Book a session" submission from the site:
-    1. Emails the booking details to LogicLane.
-    2. Asks Payvessel to start a checkout for the session fee and returns
-       the checkout URL for the browser to redirect to.
-    """
     try:
         data = json.loads(request.body or '{}')
     except (json.JSONDecodeError, TypeError):
@@ -36,13 +30,15 @@ def book_session(request):
     _email_booking(data)
 
     checkout_url = _create_payvessel_transaction(data)
-    if not checkout_url:
-        return JsonResponse(
-            {'error': 'Could not start the Payvessel checkout. Please try again shortly.'},
-            status=502,
-        )
+    if checkout_url:
+        return JsonResponse({'payvessel_checkout_url': checkout_url})
 
-    return JsonResponse({'payvessel_checkout_url': checkout_url})
+    # Payvessel unavailable — booking email already sent, confirm to user
+    return JsonResponse({
+        'payvessel_checkout_url': None,
+        'fallback': True,
+        'message': 'Your booking has been received. We will contact you to arrange payment.'
+    })
 
 
 def _email_booking(data):
@@ -62,13 +58,11 @@ def _email_booking(data):
         send_mail(
             subject=subject,
             message=message,
-            from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', None),
-            recipient_list=['logiclanesolutions@gmail.com'],
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.EMAIL_HOST_USER],
             fail_silently=False,
         )
     except Exception:
-        # Don't let an email/SMTP hiccup stop the booking or payment flow —
-        # just log it so it can be checked later.
         logger.exception('Failed to send booking notification email.')
 
 
